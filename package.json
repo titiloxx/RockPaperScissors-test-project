@@ -1,0 +1,28 @@
+{
+  "name": "rockpaperscissors-test-project",
+  "version": "1.0.0",
+  "description": "You will create a smart contract named `RockPaperScissors` whereby:  \r Alice and Bob can play the classic game of rock, paper, scissors using ERC20 (of your choosing).",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.2.0",
+    "chai": "^4.3.4",
+    "chai-as-promised": "^7.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/titiloxx/RockPaperScissors-test-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/titiloxx/RockPaperScissors-test-project/issues"
+  },
+  "homepage": "https://github.com/titiloxx/RockPaperScissors-test-project#readme"
+}
