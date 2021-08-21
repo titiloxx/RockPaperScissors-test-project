@@ -7,7 +7,6 @@ import './Token.sol';
 */
 
 contract RockPaperScissors {
-    Token public token;
     uint waitingTime=60;
     enum GameState{ NONE,CREATED, STARTED, FINISHED }
     enum Move{ NONE,ROCK, PAPER, SCISORS }
@@ -16,7 +15,7 @@ contract RockPaperScissors {
         uint256 tokenAmount;
         GameState state;
         //Addresses
-        address winner;
+        address payable winner;
         address opponent;
         //Moves
         Move heroMove;
@@ -27,21 +26,18 @@ contract RockPaperScissors {
     mapping(address => Move) lastMove;
     mapping(address => Game) public gameList;
     Game g;
-    constructor(Token _token){
-        token=_token;
-    }
 
     /* Creates a new game
        while freezing _tokenAmount
        and add it to the game list
     */
-    function newGame(uint256 _tokenAmount) public returns(bool){
-       privateNewGame(msg.sender,_tokenAmount);
+    function newGame() public payable returns(bool){
+       privateNewGame(msg.sender,msg.value);
        return true;
     }
 
-    function joinGame(address _gameOwner) public returns(bool){
-       privateJoinGame(_gameOwner,msg.sender);
+    function joinGame(address _gameOwner) public payable returns(bool){
+       privateJoinGame(_gameOwner,msg.sender,msg.value);
        return true;
     }
 
@@ -49,21 +45,19 @@ contract RockPaperScissors {
     function privateNewGame(address _gameOwner,uint256 _tokenAmount) private returns(bool){
         require(
         (gameList[_gameOwner].timeStamp+waitingTime<block.timestamp),"You have already a game initialized");
-        freezeTokens(_tokenAmount);
-        g=Game(block.timestamp,_tokenAmount,GameState.CREATED,address(0x0),address(0x0),Move.NONE,Move.NONE);
+        g=Game(block.timestamp,_tokenAmount,GameState.CREATED,payable(0x0),address(0x0),Move.NONE,Move.NONE);
         gameList[_gameOwner]=g;
 
         return true;
     }
-    function privateJoinGame(address _gameOwner, address _opponent) public returns(bool){
+    function privateJoinGame(address _gameOwner, address _opponent,uint256 _tokenAmount) private returns(bool){
         require(g.state==GameState.CREATED,"There is no game to join");
         require(
-        (token.balanceOf(_opponent)>=gameList[_gameOwner].tokenAmount),"You need more tokens to join the game");
+        (_tokenAmount>=gameList[_gameOwner].tokenAmount),"You have to send more tokens if you want to play");
         require(
         (_gameOwner!=_opponent),"You can not join a game if you are the owner");
         require(
         (gameList[_gameOwner].opponent==address(0x0)||gameList[_gameOwner].opponent==_opponent),"You are not allowed to join the game");
-        freezeTokens(gameList[_gameOwner].tokenAmount);
         gameList[_gameOwner].state=GameState.STARTED;
         gameList[_gameOwner].opponent=_opponent;
         gameList[_opponent]=gameList[_gameOwner];
@@ -87,11 +81,15 @@ contract RockPaperScissors {
         //If two moves are saved lets see the winner!
         if (hMove!=Move.NONE&&
             oMove!=Move.NONE) {
-            address r=result(_gameOwner,oAddress,hMove,oMove);
+            address payable r=payable(result(_gameOwner,oAddress,hMove,oMove));
             gameList[_gameOwner].state=GameState.FINISHED;
             if (r!=address(0x0)){
                 gameList[_gameOwner].winner=r;
                 releaseTokens(r,gameList[_gameOwner].tokenAmount*2);
+            }
+            else{
+                releaseTokens(payable(_gameOwner),gameList[_gameOwner].tokenAmount);
+                releaseTokens(payable(gameList[_gameOwner].opponent),gameList[_gameOwner].tokenAmount);
             }
             //Add game to game history
             gameHistory.push(gameList[_gameOwner]);
@@ -101,15 +99,9 @@ contract RockPaperScissors {
         return true;
     }
 
-     /* Freeze tokens*/
-    function freezeTokens(uint256 _tokenAmount) private returns(bool){
-        token.transferFrom(msg.sender,address(this), _tokenAmount);
-        return true;
-    }
-
      /* ReleaseTokens*/
-    function releaseTokens(address winner,uint256 _tokenAmount) private returns(bool){
-        token.transfer(winner, _tokenAmount);
+    function releaseTokens(address payable winner,uint256 _tokenAmount) private returns(bool){
+        winner.transfer(_tokenAmount);
         return true;
     }
 
@@ -137,8 +129,8 @@ contract RockPaperScissors {
     }
 
     //Extras
-    function playEachOther(address _gameOwner,address _opponent,uint256 _tokenAmount) public returns (bool){
-        privateNewGame(_gameOwner,_tokenAmount);
+    function playEachOther(address _gameOwner,address _opponent) public payable returns (bool){
+        privateNewGame(_gameOwner,msg.value);
         gameList[_gameOwner].opponent=_opponent;
         return true;
     }
