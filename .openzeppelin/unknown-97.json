@@ -1,0 +1,220 @@
+{
+  "manifestVersion": "3.2",
+  "proxies": [
+    {
+      "address": "0xc0Fe1b67355a8800b496102701125735014D8299",
+      "txHash": "0x29f280d9b608394259a9fee2a8f8b009d0d994f96316b2fd5164dcb33eb14263",
+      "kind": "uups"
+    }
+  ],
+  "impls": {
+    "69e38679e0d976a821c3122e33f08394472042f0eae561555995092d0c730921": {
+      "address": "0xf22b1b096cCC41f08dbB38A916Edc74878ad9784",
+      "txHash": "0x4867741633070a14af9128ec9fd39a0a3c3aa03ca3d1279cbc3bcf53f8f006ce",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "..\\@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:21"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "..\\@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:26"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "..\\@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:30"
+          },
+          {
+            "contract": "ERC20Upgradeable",
+            "label": "_balances",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "..\\@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:36"
+          },
+          {
+            "contract": "ERC20Upgradeable",
+            "label": "_allowances",
+            "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))",
+            "src": "..\\@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:38"
+          },
+          {
+            "contract": "ERC20Upgradeable",
+            "label": "_totalSupply",
+            "type": "t_uint256",
+            "src": "..\\@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:40"
+          },
+          {
+            "contract": "ERC20Upgradeable",
+            "label": "_name",
+            "type": "t_string_storage",
+            "src": "..\\@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:42"
+          },
+          {
+            "contract": "ERC20Upgradeable",
+            "label": "_symbol",
+            "type": "t_string_storage",
+            "src": "..\\@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:43"
+          },
+          {
+            "contract": "ERC20Upgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)45_storage",
+            "src": "..\\@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:361"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "..\\@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:21"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "..\\@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:77"
+          },
+          {
+            "contract": "ERC1967UpgradeUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "..\\@openzeppelin\\contracts-upgradeable\\proxy\\ERC1967\\ERC1967UpgradeUpgradeable.sol:214"
+          },
+          {
+            "contract": "UUPSUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "..\\@openzeppelin\\contracts-upgradeable\\proxy\\utils\\UUPSUpgradeable.sol:64"
+          },
+          {
+            "contract": "RockPaperScissors",
+            "label": "waitingTime",
+            "type": "t_uint256",
+            "src": "..\\project:\\contracts\\RockPaperScissors.sol:12"
+          },
+          {
+            "contract": "RockPaperScissors",
+            "label": "gameHistory",
+            "type": "t_array(t_struct(Game)2427_storage)dyn_storage",
+            "src": "..\\project:\\contracts\\RockPaperScissors.sol:26"
+          },
+          {
+            "contract": "RockPaperScissors",
+            "label": "lastMove",
+            "type": "t_mapping(t_address,t_enum(Move)2409)",
+            "src": "..\\project:\\contracts\\RockPaperScissors.sol:28"
+          },
+          {
+            "contract": "RockPaperScissors",
+            "label": "gameList",
+            "type": "t_mapping(t_address,t_struct(Game)2427_storage)",
+            "src": "..\\project:\\contracts\\RockPaperScissors.sol:29"
+          },
+          {
+            "contract": "RockPaperScissors",
+            "label": "g",
+            "type": "t_struct(Game)2427_storage",
+            "src": "..\\project:\\contracts\\RockPaperScissors.sol:30"
+          }
+        ],
+        "types": {
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_array(t_struct(Game)2427_storage)dyn_storage": {
+            "label": "struct RockPaperScissors.Game[]"
+          },
+          "t_struct(Game)2427_storage": {
+            "label": "struct RockPaperScissors.Game",
+            "members": [
+              {
+                "label": "timeStamp",
+                "type": "t_uint256"
+              },
+              {
+                "label": "tokenAmount",
+                "type": "t_uint256"
+              },
+              {
+                "label": "state",
+                "type": "t_enum(GameState)2404"
+              },
+              {
+                "label": "winner",
+                "type": "t_address_payable"
+              },
+              {
+                "label": "opponent",
+                "type": "t_address"
+              },
+              {
+                "label": "heroMove",
+                "type": "t_enum(Move)2409"
+              },
+              {
+                "label": "opponentMove",
+                "type": "t_enum(Move)2409"
+              }
+            ]
+          },
+          "t_enum(GameState)2404": {
+            "label": "enum RockPaperScissors.GameState",
+            "members": [
+              "NONE",
+              "CREATED",
+              "STARTED",
+              "FINISHED"
+            ]
+          },
+          "t_address_payable": {
+            "label": "address payable"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_enum(Move)2409": {
+            "label": "enum RockPaperScissors.Move",
+            "members": [
+              "NONE",
+              "ROCK",
+              "PAPER",
+              "SCISORS"
+            ]
+          },
+          "t_mapping(t_address,t_enum(Move)2409)": {
+            "label": "mapping(address => enum RockPaperScissors.Move)"
+          },
+          "t_mapping(t_address,t_struct(Game)2427_storage)": {
+            "label": "mapping(address => struct RockPaperScissors.Game)"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_mapping(t_address,t_mapping(t_address,t_uint256))": {
+            "label": "mapping(address => mapping(address => uint256))"
+          },
+          "t_string_storage": {
+            "label": "string"
+          },
+          "t_array(t_uint256)45_storage": {
+            "label": "uint256[45]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    }
+  }
+}

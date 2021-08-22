@@ -3,12 +3,13 @@ import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import './RockPaperScissors.sol';
 /*
                         ROCK PAPER AND SCRISSORS GAME
 
 */
 
-contract RockPaperScissors is  Initializable, ERC20Upgradeable,OwnableUpgradeable, UUPSUpgradeable{
+contract RockPaperScissorsv2ffle is  Initializable, ERC20Upgradeable,OwnableUpgradeable, UUPSUpgradeable{
     uint waitingTime;
     enum GameState{ NONE,CREATED, STARTED, FINISHED }
     enum Move{ NONE,ROCK, PAPER, SCISORS }
@@ -37,18 +38,21 @@ contract RockPaperScissors is  Initializable, ERC20Upgradeable,OwnableUpgradeabl
        while freezing _tokenAmount
        and add it to the game list
     */
-    function newGame() public payable virtual returns(bool){
+    function newGame() public payable returns(bool){
        privateNewGame(msg.sender,msg.value);
        return true;
     }
 
-    function joinGame(address _gameOwner) public payable virtual returns(bool){
+    function joinGame(address _gameOwner) public payable returns(bool){
        privateJoinGame(_gameOwner,msg.sender,msg.value);
        return true;
     }
 
-    
-    function privateNewGame(address _gameOwner,uint256 _tokenAmount) private  returns(bool){
+    function newFeature(address _gameOwner) public payable returns(bool){
+       privateJoinGame(_gameOwner,msg.sender,msg.value);
+       return true;
+    }
+    function privateNewGame(address _gameOwner,uint256 _tokenAmount) private returns(bool){
         require(
         (gameList[_gameOwner].timeStamp+waitingTime<block.timestamp),"You have already a game initialized");
         g=Game(block.timestamp,_tokenAmount,GameState.CREATED,payable(0x0),address(0x0),Move.NONE,Move.NONE);
@@ -56,7 +60,7 @@ contract RockPaperScissors is  Initializable, ERC20Upgradeable,OwnableUpgradeabl
 
         return true;
     }
-    function privateJoinGame(address _gameOwner, address _opponent,uint256 _tokenAmount)  private returns(bool){
+    function privateJoinGame(address _gameOwner, address _opponent,uint256 _tokenAmount) private returns(bool){
         require(g.state==GameState.CREATED,"There is no game to join");
         require(
         (_tokenAmount>=gameList[_gameOwner].tokenAmount),"You have to send more tokens if you want to play");
@@ -72,7 +76,7 @@ contract RockPaperScissors is  Initializable, ERC20Upgradeable,OwnableUpgradeabl
         return true;
     }
 
-    function move(address _gameOwner,Move _move) public virtual returns(bool){
+    function move(address _gameOwner,Move _move) public returns(bool){
         require((gameList[_gameOwner].state==GameState.STARTED),"You do not have a game started");
         require((gameList[_gameOwner].opponent==msg.sender||msg.sender==_gameOwner),"You are not playing this game");
         if (_gameOwner==msg.sender) {
@@ -135,13 +139,13 @@ contract RockPaperScissors is  Initializable, ERC20Upgradeable,OwnableUpgradeabl
     }
 
     //Extras
-    function playEachOther(address _gameOwner,address _opponent) public payable virtual returns (bool){
+    function playEachOther(address _gameOwner,address _opponent) public payable returns (bool){
         privateNewGame(_gameOwner,msg.value);
         gameList[_gameOwner].opponent=_opponent;
         return true;
     }
 
-    function betLastMove(address _gameOwner) public virtual returns (bool){
+    function betLastMove(address _gameOwner) public returns (bool){
         require(lastMove[msg.sender]!=Move.NONE,"You do not have any last move done");
         move(_gameOwner,lastMove[msg.sender]);
         return true;

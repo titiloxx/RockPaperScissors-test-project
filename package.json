@@ -8,10 +8,14 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.2.0",
+    "@openzeppelin/contracts-upgradeable": "^4.3.0",
+    "@truffle/hdwallet-provider": "^1.4.3",
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@openzeppelin/truffle-upgrades": "^1.8.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

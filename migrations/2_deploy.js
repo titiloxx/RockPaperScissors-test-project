@@ -1,9 +1,9 @@
 const RockPaperScissors = artifacts.require("RockPaperScissors");
-const Token = artifacts.require("Token");
+//const RockPaperScissors = artifacts.require("RockPaperScissors");
+const { deployProxy } = require('@openzeppelin/truffle-upgrades');
 
 module.exports = async function (deployer) {
-
-  //Deploy main contract
-  await deployer.deploy(RockPaperScissors);
-
+  //const existing = await Box.deployed();
+  //Deploy main contract with proxy
+  const instance = await deployProxy(RockPaperScissors,{kind:'uups'});
 };
